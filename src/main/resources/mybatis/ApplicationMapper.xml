@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fan.configserver.mapper.ApplicationMapper" >
+  <resultMap id="BaseResultMap" type="com.fan.configserver.po.Application" >
+    <id column="application_id" property="applicationId" jdbcType="BIGINT" />
+    <result column="application_name" property="applicationName" jdbcType="VARCHAR" />
+    <result column="application_type" property="applicationType" jdbcType="INTEGER" />
+    <result column="application_desc" property="applicationDesc" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="liable_user_Id" property="liableUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    application_id, application_name, application_type, application_desc, create_user_id, 
+    liable_user_Id, create_time, update_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fan.configserver.po.ApplicationExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_application
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_application
+    where application_id = #{applicationId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_application
+    where application_id = #{applicationId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fan.configserver.po.ApplicationExample" >
+    delete from t_application
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fan.configserver.po.Application" >
+    <selectKey resultType="java.lang.Long" keyProperty="applicationId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_application (application_name, application_type, 
+      application_desc, create_user_id, liable_user_Id, 
+      create_time, update_time)
+    values (#{applicationName,jdbcType=VARCHAR}, #{applicationType,jdbcType=INTEGER}, 
+      #{applicationDesc,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, #{liableUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fan.configserver.po.Application" >
+    <selectKey resultType="java.lang.Long" keyProperty="applicationId" order="AFTER" >
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    insert into t_application
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applicationName != null" >
+        application_name,
+      </if>
+      <if test="applicationType != null" >
+        application_type,
+      </if>
+      <if test="applicationDesc != null" >
+        application_desc,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="liableUserId != null" >
+        liable_user_Id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applicationName != null" >
+        #{applicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationType != null" >
+        #{applicationType,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDesc != null" >
+        #{applicationDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="liableUserId != null" >
+        #{liableUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fan.configserver.po.ApplicationExample" resultType="java.lang.Integer" >
+    select count(*) from t_application
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_application
+    <set >
+      <if test="record.applicationId != null" >
+        application_id = #{record.applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="record.applicationName != null" >
+        application_name = #{record.applicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicationType != null" >
+        application_type = #{record.applicationType,jdbcType=INTEGER},
+      </if>
+      <if test="record.applicationDesc != null" >
+        application_desc = #{record.applicationDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.liableUserId != null" >
+        liable_user_Id = #{record.liableUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_application
+    set application_id = #{record.applicationId,jdbcType=BIGINT},
+      application_name = #{record.applicationName,jdbcType=VARCHAR},
+      application_type = #{record.applicationType,jdbcType=INTEGER},
+      application_desc = #{record.applicationDesc,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      liable_user_Id = #{record.liableUserId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fan.configserver.po.Application" >
+    update t_application
+    <set >
+      <if test="applicationName != null" >
+        application_name = #{applicationName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationType != null" >
+        application_type = #{applicationType,jdbcType=INTEGER},
+      </if>
+      <if test="applicationDesc != null" >
+        application_desc = #{applicationDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="liableUserId != null" >
+        liable_user_Id = #{liableUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where application_id = #{applicationId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fan.configserver.po.Application" >
+    update t_application
+    set application_name = #{applicationName,jdbcType=VARCHAR},
+      application_type = #{applicationType,jdbcType=INTEGER},
+      application_desc = #{applicationDesc,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      liable_user_Id = #{liableUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where application_id = #{applicationId,jdbcType=BIGINT}
+  </update>
+</mapper>

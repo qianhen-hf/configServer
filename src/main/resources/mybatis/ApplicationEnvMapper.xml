@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fan.configserver.mapper.ApplicationEnvMapper" >
+  <resultMap id="BaseResultMap" type="com.fan.configserver.po.ApplicationEnv" >
+    <id column="application_env_id" property="applicationEnvId" jdbcType="BIGINT" />
+    <result column="application_id" property="applicationId" jdbcType="BIGINT" />
+    <result column="application_env_name" property="applicationEnvName" jdbcType="VARCHAR" />
+    <result column="application_env_desc" property="applicationEnvDesc" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    application_env_id, application_id, application_env_name, application_env_desc, create_time, 
+    update_time, create_user_id
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.fan.configserver.po.ApplicationEnvExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_application_env
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_application_env
+    where application_env_id = #{applicationEnvId,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_application_env
+    where application_env_id = #{applicationEnvId,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.fan.configserver.po.ApplicationEnvExample" >
+    delete from t_application_env
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.fan.configserver.po.ApplicationEnv" >
+    insert into t_application_env (application_env_id, application_id, application_env_name, 
+      application_env_desc, create_time, update_time, 
+      create_user_id)
+    values (#{applicationEnvId,jdbcType=BIGINT}, #{applicationId,jdbcType=BIGINT}, #{applicationEnvName,jdbcType=VARCHAR}, 
+      #{applicationEnvDesc,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{createUserId,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fan.configserver.po.ApplicationEnv" >
+    insert into t_application_env
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="applicationEnvId != null" >
+        application_env_id,
+      </if>
+      <if test="applicationId != null" >
+        application_id,
+      </if>
+      <if test="applicationEnvName != null" >
+        application_env_name,
+      </if>
+      <if test="applicationEnvDesc != null" >
+        application_env_desc,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="applicationEnvId != null" >
+        #{applicationEnvId,jdbcType=BIGINT},
+      </if>
+      <if test="applicationId != null" >
+        #{applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="applicationEnvName != null" >
+        #{applicationEnvName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationEnvDesc != null" >
+        #{applicationEnvDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.fan.configserver.po.ApplicationEnvExample" resultType="java.lang.Integer" >
+    select count(*) from t_application_env
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_application_env
+    <set >
+      <if test="record.applicationEnvId != null" >
+        application_env_id = #{record.applicationEnvId,jdbcType=BIGINT},
+      </if>
+      <if test="record.applicationId != null" >
+        application_id = #{record.applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="record.applicationEnvName != null" >
+        application_env_name = #{record.applicationEnvName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applicationEnvDesc != null" >
+        application_env_desc = #{record.applicationEnvDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_application_env
+    set application_env_id = #{record.applicationEnvId,jdbcType=BIGINT},
+      application_id = #{record.applicationId,jdbcType=BIGINT},
+      application_env_name = #{record.applicationEnvName,jdbcType=VARCHAR},
+      application_env_desc = #{record.applicationEnvDesc,jdbcType=VARCHAR},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fan.configserver.po.ApplicationEnv" >
+    update t_application_env
+    <set >
+      <if test="applicationId != null" >
+        application_id = #{applicationId,jdbcType=BIGINT},
+      </if>
+      <if test="applicationEnvName != null" >
+        application_env_name = #{applicationEnvName,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationEnvDesc != null" >
+        application_env_desc = #{applicationEnvDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+    </set>
+    where application_env_id = #{applicationEnvId,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fan.configserver.po.ApplicationEnv" >
+    update t_application_env
+    set application_id = #{applicationId,jdbcType=BIGINT},
+      application_env_name = #{applicationEnvName,jdbcType=VARCHAR},
+      application_env_desc = #{applicationEnvDesc,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_user_id = #{createUserId,jdbcType=BIGINT}
+    where application_env_id = #{applicationEnvId,jdbcType=BIGINT}
+  </update>
+</mapper>
